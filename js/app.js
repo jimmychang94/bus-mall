@@ -36,28 +36,49 @@ function randomPic() {
     surveyPic[i].title = BusMall.allImages[randomImage[i]].name;
   }
   console.log(randomImage);
+  
+  for (i = 0; i < randomImage.length; i ++) {
+    for (var j = 0; j < BusMall.allImages.length; j ++) {
+      if (BusMall.allImages[randomImage[i]].name === BusMall.allImages[j].name) {
+        BusMall.allImages[j].shown ++;
+      }
+    }
+  }
 }
 
 function randomPic2(event) {
+  if(event.target.id === 'picSection') {
+    return alert('Please click on an image! Thank you!');
+  }
+  numClicks ++;
+
+  if (numClicks >= 25) {
+    var ulEl = document.getElementById('ulpics');
+    for(var i = 0; i < BusMall.allImages.length; i ++) {
+      var liEl = document.createElement('li');
+      liEl.textContent = BusMall.allImages[i].name + ' got shown ' + BusMall.allImages[i].shown + ' times. It got clicked ' + BusMall.allImages[i].clicks + ' times.';
+      ulEl.appendChild(liEl);
+      
+    }
+    
+    return;
+  }
   console.log('you clicked on ' + event.target.title);
-  for(var i = 0; i < BusMall.allImages.length; i ++) {
+
+  for(i = 0; i < BusMall.allImages.length; i ++) {
     if (BusMall.allImages[i].name === event.target.title) {
       BusMall.allImages[i].clicks += 1;
     }
   }
 
-  if(event.target.id === 'picSection') {
-    return alert('Please click on an image! Thank you!');
-  }
-
-  for(var i = 0; i < 3; i ++) {
+  for(i = 0; i < 3; i ++) {
     randomImage.push(generateRandom());
     if(randomImage.length > 6) {
       randomImage.shift();
     }
   }
 
-  for(var i = 3; i < 6; i ++) {
+  for(i = 3; i < 6; i ++) {
     while(randomImage[3] === randomImage[0] || randomImage[3] === randomImage[1] || randomImage[3] === randomImage[2]) {
       randomImage[3] = generateRandom();
     }
@@ -77,7 +98,15 @@ function randomPic2(event) {
     surveyPic[i].alt = BusMall.allImages[randomImage[i+3]].name;
     surveyPic[i].title = BusMall.allImages[randomImage[i+3]].name;
   }
+
   console.log(randomImage);
+  for (i = 0; i < randomImage.length; i ++) {
+    for (var j = 0; j < BusMall.allImages.length; j ++) {
+      if (BusMall.allImages[randomImage[i]].name === BusMall.allImages[j].name) {
+        BusMall.allImages[j].shown ++;
+      }
+    }
+  }
 }
 
 new BusMall('bag', 'img/bag.jpg');
