@@ -77,9 +77,9 @@ function randomPic2(event) {
     
     return;
   }
-  console.log('you clicked on ' + event.target.title);
-
+  
   //This checks to see which image gets clicked on and adds one to that image's counter
+  console.log('you clicked on ' + event.target.title);
   for(i = 0; i < BusMall.allImages.length; i ++) {
     if (BusMall.allImages[i].name === event.target.title) {
       BusMall.allImages[i].clicks += 1;
