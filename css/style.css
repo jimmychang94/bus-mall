@@ -18,7 +18,8 @@ img {
 }
 
 h1 {
-  font-size: 20px;
+  font-family: "Russo One";
+  font-size: 50px;
   margin: 15px;
   text-align: center;
 }
@@ -31,6 +32,5 @@ p {
 }
 
 canvas {
-  border: 1px dotted black;
   margin: 15px auto;
 }
