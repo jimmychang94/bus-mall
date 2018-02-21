@@ -107,7 +107,7 @@ function generateChart() {
           display: true,
           position: 'top',
           fontSize: 20,
-          text: 'Percentage of Number of Clicks versus Times shown' 
+          text: 'Percentage of Clicks versus Times shown' 
         },
         responsive: false,
         scales: {
