@@ -4,7 +4,7 @@
 BusMall.allImages = [];
 var numClicks = 0;
 var picSection = document.getElementById('picSection');
-var surveyPic = ['', '', ''];
+var picId = [document.getElementById('leftPic'), document.getElementById('centerPic'), document.getElementById('rightPic')];
 var randomImage = [];
 
 //make a constructor function for all bus images
@@ -23,108 +23,124 @@ function generateRandom() {
 
 //This function makes the first 3 pictures and also makes sure that none of the images are the same.
 function randomPic() {
-  for(var i = 0; i < 3; i ++) {
-    randomImage.push(generateRandom());
-  }
-  
-  //The while loops below check to make sure that the random integers are not the same.
-  while(randomImage[0] === randomImage[1]) {
-    randomImage[1] = generateRandom();
-  }
-  while(randomImage[0] === randomImage[2] || randomImage[1] === randomImage[2]) {
-    randomImage[2] = generateRandom();
-  }
-  
-  //This makes the 3 images
-  for(i = 0; i < 3; i ++) {
-    surveyPic[i] = document.getElementById('surveyPic' + i);
-    surveyPic[i].src = BusMall.allImages[randomImage[i]].filepath;
-    surveyPic[i].alt = BusMall.allImages[randomImage[i]].name;
-    surveyPic[i].title = BusMall.allImages[randomImage[i]].name;
-  }
-  console.log(randomImage);
-  
-  //This tallies the amount of times a picture shows up.
-  for (i = 0; i < randomImage.length; i ++) {
-    for (var j = 0; j < BusMall.allImages.length; j ++) {
-      if (BusMall.allImages[randomImage[i]].name === BusMall.allImages[j].name) {
-        BusMall.allImages[j].shown ++;
-      }
+  while(randomImage.length < 6) {
+    var randomNum = generateRandom();
+    while(!randomImage.includes(randomNum)) {
+      randomImage.push(randomNum);
     }
+  }
+  //This makes the 3 images
+  for(var i = 0; i < 3; i ++) {
+    var rand = randomImage.shift();
+    picId[i].src = BusMall.allImages[rand].filepath;
+    picId[i].alt = BusMall.allImages[rand].name;
+    picId[i].title = BusMall.allImages[rand].name;
+    BusMall.allImages[rand].shown += 1;
   }
 }
 
+function generateChart() {
+  var x = [];
+  var y = [];
+  var picColor = [];
+  for (var i = 0; i < BusMall.allImages.length; i ++) {
+    x.push(BusMall.allImages[i].name);
+    y.push(BusMall.allImages[i].clicks);
+    picColor.push('blue');
+  }
+  var ctx = document.getElementById('canvasClicks').getContext('2d');
+  var graphOfPics = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: x,
+      datasets: [{
+        label: 'Number of Clicks',
+        data: y,
+        backgroundColor: picColor,
+      }],
+    },
+      options: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          position: 'top',
+          fontSize: 20,
+          text:'Number of times an image was chosen'
+        },
+        responsive: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              stepSize: 1.0,
+            }
+          }]
+        }
+      }
+  });
+
+  var z = [];
+  var picColor2 = [];
+  for (var i = 0; i < BusMall.allImages.length; i ++) {
+    z.push(Math.floor(BusMall.allImages[i].clicks / BusMall.allImages[i].shown * 100));
+    picColor2.push('purple');
+  }
+  ctx = document.getElementById('canvasPercentage').getContext('2d');
+  var graphOfPics2 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: x,
+      datasets: [{
+        label: 'Percentage Clicked',
+        data: z,
+        backgroundColor: picColor2,
+      }],
+    },
+      options: {
+        fontSize: 15,
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          position: 'top',
+          fontSize: 20,
+          text: 'Percentage of Number of Clicks versus Times shown' 
+        },
+        responsive: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              stepSize: 10
+            }
+          }]
+        }
+      }
+  });
+}
+
 // This function is for when the user clicks
-function randomPic2(event) {
+function handleClick(event) {
   //This if statement makes sure that the user clicks on a image
   if(event.target.id === 'picSection') {
     return alert('Please click on an image! Thank you!');
   }
-
-  //This increases the counter for the number of clicks
-  numClicks ++;
-
-  //This if statement checks to see if the number of clicks is 25 or over and then runs this if it does go over.
-  if (numClicks >= 25) {
-    var ulEl = document.getElementById('ulpics');
-    for(var i = 0; i < BusMall.allImages.length; i ++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = BusMall.allImages[i].name + ' got shown ' + BusMall.allImages[i].shown + ' times. It got clicked ' + BusMall.allImages[i].clicks + ' times.';
-      ulEl.appendChild(liEl);
-      picSection.removeEventListener('click', randomPic2);
-      
-    }
-    
-    return;
-  }
-  
   //This checks to see which image gets clicked on and adds one to that image's counter
-  console.log('you clicked on ' + event.target.title);
-  for(i = 0; i < BusMall.allImages.length; i ++) {
+  for(var i = 0; i < BusMall.allImages.length; i ++) {
     if (BusMall.allImages[i].name === event.target.title) {
       BusMall.allImages[i].clicks += 1;
     }
   }
-
-  //This makes a random number and also removes the numbers that are over 6
-  for(i = 0; i < 3; i ++) {
-    randomImage.push(generateRandom());
-    if(randomImage.length > 6) {
-      randomImage.shift();
-    }
-  }
-
-  //This checks the randomly generated number to make sure that it isn't a duplicate of the previous numbers.
-  for(i = 3; i < 6; i ++) {
-    while(randomImage[3] === randomImage[0] || randomImage[3] === randomImage[1] || randomImage[3] === randomImage[2]) {
-      randomImage[3] = generateRandom();
-    }
-
-    while(randomImage[4] === randomImage[0] || randomImage[4] === randomImage[1] || randomImage[4] === randomImage[2] || randomImage[4] === randomImage[3]) {
-      randomImage[4] = generateRandom();
-    }
-
-    while(randomImage[5] === randomImage[0] || randomImage[5] === randomImage[1] || randomImage[5] === randomImage[2] || randomImage[5] === randomImage[3] || randomImage[5] === randomImage[4]) {
-      randomImage[5] = generateRandom();
-    }
-  }
-  
-  //This puts the image on the HTML
-  for(i = 0; i < 3; i ++) {
-    surveyPic[i] = document.getElementById('surveyPic' + i);
-    surveyPic[i].src = BusMall.allImages[randomImage[i+3]].filepath;
-    surveyPic[i].alt = BusMall.allImages[randomImage[i+3]].name;
-    surveyPic[i].title = BusMall.allImages[randomImage[i+3]].name;
-  }
-  console.log(randomImage);
-
-  //This tallies the amount of times an image shows up
-  for (i = 0; i < randomImage.length; i ++) {
-    for (var j = 0; j < BusMall.allImages.length; j ++) {
-      if (BusMall.allImages[randomImage[i]].name === BusMall.allImages[j].name) {
-        BusMall.allImages[j].shown ++;
-      }
-    }
+  randomPic();
+    
+  numClicks += 1; //This increases the click counter by 1
+  //This if statement checks to see if the number of clicks is 25 or over and then runs this if it does go over.
+  if (numClicks > 24) {
+    picSection.style.display = 'none';
+    generateChart();
   }
 }
 
@@ -154,4 +170,4 @@ new BusMall('wine-glass', 'img/wine-glass.jpg');
 randomPic();
 
 //This makes an event listener for clicks on the section containing the pictures.
-picSection.addEventListener('click', randomPic2);
+picSection.addEventListener('click', handleClick);

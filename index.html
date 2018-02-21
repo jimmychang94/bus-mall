@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css">
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
   <title>Bus Mall Marketing Survey</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 </head>
 <body>
   <header>
@@ -17,11 +18,12 @@
       <p>Thank you for participating in our marketing survey. You will be shown a list of 3 products that might be shown in our future catalog. Please click on the image of the product you like the most. There will be 25 comparisons between 20 different products. Thank you for your participation!</p>
     </section>
     <section id="picSection">
-      <img id="surveyPic0" src="" alt="" title="">
-      <img id="surveyPic1" src="" alt="" title="">
-      <img id="surveyPic2" src="" alt="" title="">
+      <img id="leftPic" src="" alt="" title="">
+      <img id="centerPic" src="" alt="" title="">
+      <img id="rightPic" src="" alt="" title="">
     </section>
-    <ul id="ulpics"></ul>
+    <canvas id="canvasClicks" width="960px" height="300px"></canvas>
+    <canvas id="canvasPercentage" width="960px" height="300px"></canvas>
   </main>
 
   <script src="js/app.js"></script>
