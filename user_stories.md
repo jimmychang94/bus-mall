@@ -7,3 +7,7 @@ As a market researcher I want to be able to tally the number of clicks each imag
 As a market researcher I want to stop marking clicks after 25 clicks
 As a market researcher I want to be able to show a graph (for now list) of the number of clicks each image receives.
 As a developer I want to make a constructor function for all the images
+As a developer I want to prevent the user from clicking once 25 clicks have been tallied
+As a developer I want to store the all the image data as an array
+As a developer I want to prevent the user from clicking on anything besides the images to advance the screen
+As a developer I want to hide the images once the user has clicked 25 times
