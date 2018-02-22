@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 //Global Variables
 BusMall.allImages = [];
@@ -19,10 +19,6 @@ function BusMall(name, filepath) {
 //generates a random integer between 0 and the length of the array holding all the images - 1.
 function generateRandom() {
   return Math.floor(Math.random() * BusMall.allImages.length);
-}
-
-function randomLogo() {
-
 }
 
 //This function makes the first 3 pictures and also makes sure that none of the images are the same.

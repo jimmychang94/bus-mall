@@ -1,3 +1,5 @@
+'use strict';
+
 var allImagesRetrieved = localStorage.getItem('allImages');
 var allImages = JSON.parse(allImagesRetrieved);
 var tableEl = document.getElementById('tablePics');
