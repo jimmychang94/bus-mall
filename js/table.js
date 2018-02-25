@@ -29,13 +29,11 @@ function render() {
     var percentage = Math.floor(clicksArray[i] / shownArray[i] * 100);
     percentArray.push(percentage);
     newElement('td', percentArray[i], trEl);
-    if (percentArray[i] > 35) {
+    if (percentArray[i] > 30) {
       recommendArray.push('Yes');
       
-    } else if (percentArray[i] < 25) {
-      recommendArray.push('No');
     } else {
-      recommendArray.push('Maybe');
+      recommendArray.push('No');
     }
     newElement('td', recommendArray[i], trEl);
     tableEl.appendChild(trEl);
